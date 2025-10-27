@@ -1,0 +1,29 @@
+import React, { useState, useEffect } from "react";
+
+export default function WeatherAPI() {
+  const [city, setCity] = useState("London");
+  const [weather, setWeather] = useState(null);
+
+  useEffect(() => {
+    fetch(
+      `https://api.open-meteo.com/v1/forecast?latitude=51.5072&longitude=0.1276&current_weather=true`
+    )
+      .then((res) => res.json())
+      .then((data) => setWeather(data.current_weather))
+      .catch((err) => console.log("Error:", err));
+  }, []);
+
+  return (
+    <div style={{ textAlign: "center", marginTop: 50 }}>
+      <h2>Weather Info (Example API)</h2>
+      {weather ? (
+        <p>
+          🌡️ Temperature: {weather.temperature}°C <br />
+          💨 Wind Speed: {weather.windspeed} km/h
+        </p>
+      ) : (
+        <p>Loading weather data...</p>
+      )}
+    </div>
+  );
+}
